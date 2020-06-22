@@ -37,23 +37,11 @@ public class DefaultSqlSession implements SqlSession{
     }
 
     @Override
-    public boolean insert(String statementId, Object... params) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {
-        MappedStatement mappedStatement = configuration.getMappedStatementMap().get(statementId);
-
-        return executor.update(configuration,mappedStatement,params);
-    }
-
-    @Override
     public boolean update(String statementId, Object... params) throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException, NoSuchFieldException {
         MappedStatement mappedStatement = configuration.getMappedStatementMap().get(statementId);
 
         return executor.update(configuration,mappedStatement,params);
 
-    }
-
-    @Override
-    public boolean delete(String statementId, Object... params) {
-        return false;
     }
 
 
@@ -83,11 +71,6 @@ public class DefaultSqlSession implements SqlSession{
                         return selectOne(statementId, args);
                     }
                 }else if("update".equals(opertType)){
-                    return update(statementId,args);
-
-                }else if ("insert".equals(opertType)){
-                   return update(statementId,args);
-                }else if("delete".equals(opertType)){
                     return update(statementId,args);
 
                 }

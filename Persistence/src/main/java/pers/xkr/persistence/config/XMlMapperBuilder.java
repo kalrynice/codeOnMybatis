@@ -28,6 +28,10 @@ public class XMlMapperBuilder {
         List<Element> selectNodesI = rootElement.selectNodes("//insert");
         List<Element> selectNodesD = rootElement.selectNodes("//delete");
 
+        ArrayList<Element> updateElements = new ArrayList<>();
+        updateElements.addAll(selectNodesD);
+        updateElements.addAll(selectNodesI);
+        updateElements.addAll(selectNodesU);
 
         String namespace= rootElement.attributeValue("namespace");
 
@@ -47,7 +51,7 @@ public class XMlMapperBuilder {
             configuration.getMappedStatementMap().put(namespace+id,mappedStatement);
         }
 
-        for (Element selectNode : selectNodesU) {
+        for (Element selectNode : updateElements) {
             String id = selectNode.attributeValue("id");
             String resultType = selectNode.attributeValue("resultType");
             String parameterType = selectNode.attributeValue("parameterType");
@@ -64,39 +68,7 @@ public class XMlMapperBuilder {
             configuration.getMappedStatementMap().put(namespace+id,mappedStatement);
         }
 
-        for (Element selectNode : selectNodesI) {
-            String id = selectNode.attributeValue("id");
-            String resultType = selectNode.attributeValue("resultType");
-            String parameterType = selectNode.attributeValue("parameterType");
-            String textTrim = selectNode.getTextTrim();
 
-            MappedStatement mappedStatement = new MappedStatement();
-            mappedStatement.setId(id);
-            mappedStatement.setNamespace(namespace);
-            mappedStatement.setParameterType(parameterType);
-            mappedStatement.setResultType(resultType);
-            mappedStatement.setSql(textTrim);
-            mappedStatement.setOpertType("insert");
-
-            configuration.getMappedStatementMap().put(namespace+id,mappedStatement);
-        }
-
-        for (Element selectNode : selectNodesD) {
-            String id = selectNode.attributeValue("id");
-            String resultType = selectNode.attributeValue("resultType");
-            String parameterType = selectNode.attributeValue("parameterType");
-            String textTrim = selectNode.getTextTrim();
-
-            MappedStatement mappedStatement = new MappedStatement();
-            mappedStatement.setId(id);
-            mappedStatement.setNamespace(namespace);
-            mappedStatement.setParameterType(parameterType);
-            mappedStatement.setResultType(resultType);
-            mappedStatement.setSql(textTrim);
-            mappedStatement.setOpertType("delete");
-
-            configuration.getMappedStatementMap().put(namespace+id,mappedStatement);
-        }
 
     }
 

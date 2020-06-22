@@ -8,15 +8,15 @@
         select *from user where id = #{id} and username = #{username}
     </select>
 
-    <insert id = 'insertUser' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='java.lang.Boolean'>
+    <insert id = 'insertUser' parameterType ='pers.xkr.persistenceTest.pojo.User'>
         insert into user(id,username,password) values(#{id},#{username},#{password});
     </insert>
 
-    <delete id = 'deleteUserById' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='java.lang.Boolean'>
+    <delete id = 'deleteUserById' parameterType ='pers.xkr.persistenceTest.pojo.User'>
         delete from user where id = #{id}
     </delete>
 
-    <update id = 'updateUserPasswordById' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='java.lang.Boolean'>
+    <update id = 'updateUserPasswordById' parameterType ='pers.xkr.persistenceTest.pojo.User'>
           update user set password = #{password} where id = #{id}
     </update>
 

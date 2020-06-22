@@ -121,7 +121,6 @@ public class PesistenceTest {
         IUserDao userDao = sqlSessionFactory.openSession().getMapper(IUserDao.class);
         User user = new User();
         user.setId("5");
-        user.setPassword("kalry");
         boolean b = userDao.deleteUserById(user);
 
         System.out.println(b);
