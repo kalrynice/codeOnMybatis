@@ -1,5 +1,5 @@
-<mapper namespace = "user">
-    <select id = 'findUsers'  resultType ='pers.xkr.persistenceTest.pojo.User' >
+<mapper namespace = "pers.xkr.persistenceTest.dao.IUserDao">
+    <select id = 'findAllUsers'  resultType ='pers.xkr.persistenceTest.pojo.User' >
         select *from user
     </select>
 
@@ -7,4 +7,21 @@
     <select id = 'findUserById' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='pers.xkr.persistenceTest.pojo.User' >
         select *from user where id = #{id} and username = #{username}
     </select>
+
+    <insert id = 'insertUser' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='java.lang.Boolean'>
+        insert into user(id,username,password) values(#{id},#{username},#{password});
+    </insert>
+
+    <delete id = 'deleteUserById' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='java.lang.Boolean'>
+        delete from user where id = #{id}
+    </delete>
+
+    <update id = 'updateUserPasswordById' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='java.lang.Boolean'>
+          update user set password = #{password} where id = #{id}
+    </update>
+
+
+
+
+
 </mapper>

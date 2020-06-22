@@ -6,7 +6,16 @@ public class MappedStatement {
     private String sql;
     private String parameterType;
     private String resultType;
+    private String opertType;
 
+
+    public String getOpertType() {
+        return opertType;
+    }
+
+    public void setOpertType(String opertType) {
+        this.opertType = opertType;
+    }
 
     public String getNamespace() {
         return namespace;

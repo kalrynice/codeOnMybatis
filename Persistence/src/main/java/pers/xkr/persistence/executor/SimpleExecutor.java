@@ -1,4 +1,4 @@
-package pers.xkr.persistence.sqlSession;
+package pers.xkr.persistence.executor;
 
 import pers.xkr.persistence.pojo.Configuration;
 import pers.xkr.persistence.pojo.MappedStatement;
@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleExecutor implements Executor{
+public class SimpleExecutor implements Executor {
 
     @Override
     public <T> List<T> query(Configuration configuration, MappedStatement mappedStatement, Object... params) throws SQLException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InstantiationException {
@@ -39,8 +39,8 @@ public class SimpleExecutor implements Executor{
             String content = parameterMappings.get(i).getContent();
 
             Field declaredField = object.getDeclaredField(content);
-            declaredField.setAccessible(true);
 
+            declaredField.setAccessible(true);
             Object o = declaredField.get(params[0]);
 
             preparedStatement.setObject(i+1,o);
@@ -70,6 +70,60 @@ public class SimpleExecutor implements Executor{
 
         //
     }
+
+    @Override
+    public boolean update(Configuration configuration, MappedStatement mappedStatement, Object... params) throws SQLException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InstantiationException {
+        //创建连接
+        Connection connection = configuration.getDataSource().getConnection();
+
+
+        String xmlSql = mappedStatement.getSql();
+        String parameterType = mappedStatement.getParameterType();
+        //String resultType = mappedStatement.getResultType();
+
+
+        //讲语句中的#{}用问号代替  同时通过handler存放#{}中的属性名称 获取数据库执行的sql语句
+        ParameterMappingTokenHandler parameterMappingTokenHandler = new ParameterMappingTokenHandler();
+        GenericTokenParser genericTokenParser = new GenericTokenParser("#{", "}", parameterMappingTokenHandler);
+        String parseSql = genericTokenParser.parse(xmlSql);
+
+        PreparedStatement preparedStatement = connection.prepareStatement(parseSql);
+
+        List<ParameterMapping> parameterMappings = parameterMappingTokenHandler.getParameterMappings();
+
+
+        Class object = getClassType(parameterType);
+        for (int i = 0; i < parameterMappings.size(); i++) {
+            String content = parameterMappings.get(i).getContent();
+
+            Field declaredField = object.getDeclaredField(content);
+
+            declaredField.setAccessible(true);
+            Object o = declaredField.get(params[0]);
+
+            preparedStatement.setObject(i+1,o);
+
+        }
+
+
+        int i = preparedStatement.executeUpdate();
+
+        if(1 == i){
+            return true;
+        }
+
+        return false;
+    }
+
+    /*@Override
+    public boolean delete(Configuration configuration, MappedStatement mappedStatement, Object... params) throws SQLException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InstantiationException {
+        return false;
+    }
+
+    @Override
+    public boolean update(Configuration configuration, MappedStatement mappedStatement, Object... params) throws SQLException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InstantiationException {
+        return false;
+    }*/
 
     public Class<?> getClassType(String className) throws ClassNotFoundException {
         if(className!=null){

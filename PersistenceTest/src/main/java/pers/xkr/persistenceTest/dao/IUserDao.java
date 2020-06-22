@@ -9,5 +9,12 @@ public interface IUserDao {
     List<User>  findAllUsers();
 
 
-    User findUserById(String id);
+    User findUserById(User user);
+
+    boolean insertUser(User user);
+
+    boolean updateUserPasswordById(User user);
+
+    boolean deleteUserById(User user);
+
 }
