@@ -1,0 +1,10 @@
+<mapper namespace = "user">
+    <select id = 'findUsers'  resultType ='pers.xkr.persistenceTest.pojo.User' >
+        select *from user
+    </select>
+
+
+    <select id = 'findUserById' parameterType ='pers.xkr.persistenceTest.pojo.User' resultType ='pers.xkr.persistenceTest.pojo.User' >
+        select *from user where id = #{id} and username = #{username}
+    </select>
+</mapper>

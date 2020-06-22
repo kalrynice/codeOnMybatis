@@ -1,0 +1,13 @@
+pers\xkr\persistence\config\BoundSql.class
+pers\xkr\persistence\utils\TokenHandler.class
+pers\xkr\persistence\utils\ParameterMapping.class
+pers\xkr\persistence\config\XmlConfigBuilder.class
+pers\xkr\persistence\sqlSession\DefaultSqlSessionFactory.class
+pers\xkr\persistence\sqlSession\SqlSession.class
+pers\xkr\persistence\pojo\Configuration.class
+pers\xkr\persistence\pojo\MappedStatement.class
+pers\xkr\persistence\utils\ParameterMappingTokenHandler.class
+pers\xkr\persistence\io\Resource.class
+pers\xkr\persistence\sqlSession\SqlSessionFactory.class
+pers\xkr\persistence\config\XMlMapperBuilder.class
+pers\xkr\persistence\utils\GenericTokenParser.class
