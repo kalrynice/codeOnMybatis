@@ -8,13 +8,17 @@
 2.支持的 association collection;
 
 
-3.SimpleExcutor  
+3.通过源码中的ExecutorType，发现被创建的Executor类型有三种，
+1.SimpleExecutor,默认使用此执行器，正常处理sql，每次处理完成请求关闭Statement对象
+2.BatchExecutor  batch，这边理解为批量执行器。对比simple常规执行器，源码中对批量sql语句进行了预编译后执行
+3.ReuseExecutor，可重用执行器  源码中使用 HashMap去做Statement对象的储存，key值是sql，所以对于同一sql，Statement对象
+是可以重用的
 
 
 
 4.   		    一级缓存  二级缓存
     存储结构     HashMap存储，key都是statementId+param+retrunType等信息组成，一级缓存的value是返回对象，二级缓存存储的是对象流，所以实现二级缓存对象需要实现序列化接口
-	范围         一次会话中，即一次SqlSessioN请求， 二级缓存则是作用于整个系统的SqlSession
+	范围         一次会话中，即一次SqlSession请求， 二级缓存则是作用于整个系统的SqlSession
    失效方式    一级缓存可以手动清除，或者通过增删改去使之失效，
    
    
